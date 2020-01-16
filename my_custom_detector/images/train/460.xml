@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>460.jpg</filename>
+	<path>/home/atulu/Documents/cav_detection_tf_obj_det_api/imgs/train/460.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>191</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>decay/cavity</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>284</xmin>
+			<ymin>71</ymin>
+			<xmax>347</xmax>
+			<ymax>146</ymax>
+		</bndbox>
+	</object>
+</annotation>

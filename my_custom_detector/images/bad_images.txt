@@ -1,0 +1,18 @@
+train images:
+339.png, RGBA - 
+404.png, RGBA -
+212.png, P    DELETED the image, cuz cv2 wasnt able to read it.
+65.png, RGBA -
+122.png, RGBA -
+543.png, RGBA -
+228.png, RGBA -
+160.png, P -
+113.png, RGBA -
+
+test images:
+637.png, RGBA - DELETED cuz it's repeated.
+607.png, RGBA -
+
+converting:
+img = cv2.imread(path)
+cv2.imwrite(path, img, [int(cv2.IMWRITE_JPEG_QUALITY), 100])

@@ -1,0 +1,130 @@
+1.Protobuf was available in anaconda itself, it comes automatically when installing Tensorflow, so I did not 
+download or
+ manually install it. (i.e you can download and install
+protbuf from anaconda-navigator->environments->search for the package under the environement you want).
+
+2. To use protobuf, first activate tf_object_detection api as the protobuf pkg is installed only in this environement.
+
+3.I downloaded and cloned tensorflow/models from github (around 430mb huge file). It was renamed from models-master to models.
+
+4. Object detection is under models/research directory.
+
+5. opencv was installed using pip and not anaconda.
+
+6. This was written in .bashrc file: export PYTHONPATH=$PYTHONPATH:/home/atulu/Documents/cav_detection_tf_obj_det_api/models/research:/home/atulu/Documents/cav_detection_tf_obj_det_api/models/research/slim
+
+7. SPECIFIC VERSION OF TENSORFLOW AND PYTHON WAS ISNTALLED: TF 1.9.0 along with PTYHON 3.6.10 AS THERE WERE 
+COMPATIBILTY ISSUES -> from anaconda navigator itself (i had to downgrade after installing 2.0)
+
+8. INSTALLING LABELIMG - download the github repo zip file from it's github page. Follow the instructions given in their readme file.
+ Qt5 and the labelimg stuff were installed in the tf_object_detection environment.
+ 
+
+	->in labelimg-master directory with tf_object_detection api, lxml wasn't installed as specified in requirements.txt
+	  file in the labelimg repo, as  it was already installed in my conda environment. But it is needed to note that labelimg was
+	  asking for 4.2.4 version, while I had 4.4.2 version installed.
+	-> inside labelimg-master directory, the "make qt5py3" command was done.
+	-> python3 labelimg.py command would run the application.
+
+
+
+
+
+
+####################
+WHILE TRAINING
+1.select and download a model from here:
+https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
+EXTRACT IT AND PUT IN THE models/research/object-detection directory
+
+
+2.select the corresponding sample config file for the downloaded model
+it will be there in models/research/object_detection directory itself under some sample directory.
+
+3. I then selected the config file, copied it, and pasted the file to the 
+same directory where my extracted-downloaded model was.
+
+4. Now edit the config file: especially the "PATH_TO_BE_CONFIGURED" should be the path
+to the downloaded model.
+
+LATER EDIT: NOTE THAT FULL PATH OF THE CONFIG FILES, RECORD FILES NEED TO BE WRITTEN!
+
+Inside train_input_reader:
+ALSO, change the input_path, :ours is "data/train.record". (for some reason the
+already written line has a "-?????-of-00100" also written. We deleted that part
+for now and only let it be "train.record"
+
+In the Output path, we will be having "data/object-detection.pbtxt"
+the object-detection.pbtxt file is something we will be creating.
+
+similiarly, inside eval_input_reader:
+change to "data/test.record" and "data/object-detection.pbtxt"
+
+5. After this the 'object-detection.pbtxt' file was created, and
+for now placed in "training" directory which was also created.
+
+the config file was also moved into the 'training' directory.
+
+
+6. Now the data, ssd_mobile_net..(whatever model you had), training,
+imgs folders needs to be put in the legacy folder, which is where the 
+train.py file is. Or you can out them wherever you want, but you 
+will have to specify the full path when running train.py in terminal.
+THE xml_to_csv.py and generate_tfrecords.py file was copied into the legacy
+directory for convenience.
+
+
+7. NOW GO TO legacy FOLDER, THE training.py file WILL BE THERE:
+OPEN IN TERMINAL AND RUN:
+python3 train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/ssd_mobilenet_v1_coc.config
+
+8. IMPORTANT: 
+MAKE SURE YOU GO THROUGH ALL THE SAMPLES IN THE CSV FILE AND CHECK IF THERE ARE ANY
+ 0 HEIGHT AND 0 WIDTH IMAGES IN YOUR TRAIN OR TEST DATASET.
+
+DELETE THOSE IMAGES AND ALSO MAKE THE CSV FILES AGAIN BY EXECUTING THE xml_to_csv.py AND THEN 
+MAKE THE TFRECORD FILES BY RUNNING generate_tfrecords.py.
+
+
+##############################################################################
+
+9. YOU CAN ALSO FOLLOW THIS TUTORIAL FOR UNDERSTANDING THE PORPER DIRECTORY STRUCTURE:
+https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html
+
+10. IMPORTANT: USE model_train.py FILE, THE train.py FILE SEEMS TO ENCOUNTER SOME KIND OF OOM
+ERROR OR SOMETHING, WHICH JUST DID NOT WORK FOR MY CASE.
+THE COMMAND I ENTERED:
+python3 /content/drive/My\ Drive/cav_detection_tf_obj_det_api/models/research/object_detection/model_main.py --model_dir=/content/drive/My\ Drive/cav_detection_tf_obj_det_api/models/research/object_detection/legacy/training --pipeline_config_path=/content/drive/My\ Drive/cav_detection_tf_obj_det_api/models/research/object_detection/legacy/training/ssd_mobilenet_v1_coco.config
+
+11. WE CHNAGED THE MODEL DIRECTORY COMPLETELY: WE CREATED A my_custom_detector DIR UNDER THE ROOT DIR. WE MOVED THE 
+data, training, images (imgs renamed to images), downloaded model, xml_to_csv.py, generate_tfrecord.py and also a
+copy of main_model.py to this directory.
+
+THIS IS NOW OUR MAIN WORKING DIRECTORY.
+
+12. TO EXPORT THE INFERENCE GRAPH, WE COPIED THE export_inference_graph.py TO THIS FOLDER.
+RUN THIS COMMAND TO GET THE INFERENCE GRAPH (SELECT THE BEST CKPT):
+python export_inference_graph.py --input_type image_tensor --pipeline_config_path training/ssd_mobilenet_v1_coco.config --trained_checkpoint_prefix training/model.ckpt-<step_num> --output_directory trained-inference-graphs/cavity_inference_graph_v1.pb
+
+13. FOR GETTING TENSORBOARD FOR THE TRAINED MODEL, use the following model (for colab):
+
+%cd /content/drive/My Drive/cav_detection_tf_obj_det_api/my_custom_detector
+%load_ext tensorboard
+%tensorboard --logdir training
+
+14.Loss for final step (40000 steps with ssd_mobilenet_v1_coco model): 1.6535192.
+
+
+############# AFTER TRAINING #####################
+15. the output_inference_graph folder is the resultant folder created after running the export_inference_graph.py script.
+ It contains the trained graph. We use this for detection.
+
+16. For detection from this trained graph, we are basically only intersted in the frozen_inference_graph.pb which was just
+created when we executed the export_inference_graph.py.
+
+17. I USED THE object_detection_tutorial.ipynb's code. Note: the code in that notebook will give certain errors. So I made few
+changes to it in order to make it work.
+
+18. For the detection, just place the images to be tested on in the test_image_dir and run the code (the last cell)  I wrote 
+in the colab cavity_detection.ipyb
+

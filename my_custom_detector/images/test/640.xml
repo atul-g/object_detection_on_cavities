@@ -1,0 +1,26 @@
+<annotation>
+	<folder>test</folder>
+	<filename>640.jpg</filename>
+	<path>/home/atulu/Documents/cav_detection_tf_obj_det_api/imgs/test/640.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>348</width>
+		<height>282</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>decay/cavity</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>206</xmin>
+			<ymin>187</ymin>
+			<xmax>238</xmax>
+			<ymax>220</ymax>
+		</bndbox>
+	</object>
+</annotation>
