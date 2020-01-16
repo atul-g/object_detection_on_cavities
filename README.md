@@ -1,2 +1,19 @@
 # Detecting tooth decay and cavities using Tensorflow Object Detection API
 
+![image_prediction](https://raw.githubusercontent.com/atul-g/object_detection_on_cavities/master/my_custom_detector/prediction1.png)
+
+In this project I use tensorflow's ![Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection) to detect tooth decay and possibly early stage cavities. I made my own dataset of images, which was collected from Google Images.
+
+Note:I made a [similiar project](https://github.com/atul-g/cavity_detection) on this before where I used CNN to **classify** images into categories- having decay/cavities, not having any decay/cavities. The results weren't convincing enough so I decided to move to Object Detection. The results turned out to be much better.
+
+Project Tree:
+* The `models` directory is cloned from tensorflow's [models](https://github.com/tensorflow/models) repo.
+* The `labelimg-master` is cloned from this [repository](https://github.com/tzutalin/labelImg). I used it to annotate my images.
+* The main working directory is the `my_custom_directory`:
+* `images` contains our dataset of images with it's corresponding xml files which was created with the help of labelimg.
+* `ssd_mobilenet_v1_coco_2018_01_28` is the model which I used to train on my dataset. Other models can be found [here](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md).
+* The `training` directory contains the config files for the model and also the label-map which is needed by the model for training and also detection. The model stores it's checkpoints in this directory.
+* `trained_inference_graph` contains the graph exported from the trained model using the `export_inference_graph.py` script which was copied from the object_detection directory.
+* `model_main.py` is the script which is used to start the training of the model.
+* `generate_tfrecord` and `xml_to_csv.py` were scripts used from this [repo](https://github.com/datitran/raccoon_dataset). A  really simple and convenient way to convert the xml files created to CSV and then generating Tensorflow records which will be used to train the model. The generated CSV files and the TFrecords are in the `data` directory.
+
