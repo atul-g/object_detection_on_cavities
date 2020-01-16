@@ -1,3 +1,5 @@
+NOTES FOR MYSELF:
+
 1.Protobuf was available in anaconda itself, it comes automatically when installing Tensorflow, so I did not 
 download or
  manually install it. (i.e you can download and install
