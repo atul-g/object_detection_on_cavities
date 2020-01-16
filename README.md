@@ -6,7 +6,7 @@ In this project I use tensorflow's ![Object Detection API](https://github.com/te
 
 Note:I made a [similiar project](https://github.com/atul-g/cavity_detection) on this before where I used CNN to **classify** images into categories- having decay/cavities, not having any decay/cavities. The results weren't convincing enough so I decided to move to Object Detection. The results turned out to be much better.
 
-Project Tree:
+# Project Tree:
 * The `models` directory is cloned from tensorflow's [models](https://github.com/tensorflow/models) repo.
 * The `labelimg-master` is cloned from this [repository](https://github.com/tzutalin/labelImg). I used it to annotate my images.
 * The main working directory is the `my_custom_directory`:
@@ -16,4 +16,18 @@ Project Tree:
 * `trained_inference_graph` contains the graph exported from the trained model using the `export_inference_graph.py` script which was copied from the object_detection directory.
 * `model_main.py` is the script which is used to start the training of the model.
 * `generate_tfrecord` and `xml_to_csv.py` were scripts used from this [repo](https://github.com/datitran/raccoon_dataset). A  really simple and convenient way to convert the xml files created to CSV and then generating Tensorflow records which will be used to train the model. The generated CSV files and the TFrecords are in the `data` directory.
+
+# Training:
+1. Clone the models repo from tensorflow. Follow their installation instructions to setup the environment needed for the project.
+2. Collect the dataset. I had around 350 images in total
+3. Annotate the images with the help of labelimg. Run `python3 labelimg.py` to start the application.
+4. Use `xml_to_csv.py` and `generate_tfrecords.py` to get the final train.records and test.records files.
+5. Select your model and clone it. Get the corresponding config file from `/models/research/object_detection/samples` directory. 
+6. Edit the config file.
+7. create the .ptxt file which will be the label-map.
+8. Run the model_main.py. I used 40000 steps to train the model.
+9. Use export_inference_graph.py to generate the graph needed for further prediction. (Use the best checkpoint file for this)
+10. For further predictions just paste images in the `test_image_dir`.
+
+Since I trained it in colab, you can find the [`cavity_detection.ipynb`](https://github.com/atul-g/object_detection_on_cavities/blob/master/my_custom_detector/cavity_detection.ipynb) notebook which does all of the above.
 
