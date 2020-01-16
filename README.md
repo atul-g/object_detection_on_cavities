@@ -2,6 +2,8 @@
 
 ![image_prediction](https://raw.githubusercontent.com/atul-g/object_detection_on_cavities/master/my_custom_detector/prediction1.png)
 
+LEFT: DETECTION, RIGHT:ORIGINAL IMAGE
+
 In this project I use tensorflow's ![Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection) to detect tooth decay and possibly early stage cavities. I made my own dataset of images, which was collected from Google Images.
 
 Note:I made a [similiar project](https://github.com/atul-g/cavity_detection) on this before where I used CNN to **classify** images into categories- having decay/cavities, not having any decay/cavities. The results weren't convincing enough so I decided to move to Object Detection. The results turned out to be much better.
