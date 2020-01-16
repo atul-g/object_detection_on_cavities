@@ -24,10 +24,12 @@ Note:I made a [similiar project](https://github.com/atul-g/cavity_detection) on 
 4. Use `xml_to_csv.py` and `generate_tfrecords.py` to get the final train.records and test.records files.
 5. Select your model and clone it. Get the corresponding config file from `/models/research/object_detection/samples` directory. 
 6. Edit the config file.
-7. create the .ptxt file which will be the label-map.
+7. create the .ptxt file which will be the label-map. Mine is [object-detection.pbtxt](https://github.com/atul-g/object_detection_on_cavities/blob/master/my_custom_detector/training/object-detection.pbtxt).
 8. Run the model_main.py. I used 40000 steps to train the model.
 9. Use export_inference_graph.py to generate the graph needed for further prediction. (Use the best checkpoint file for this)
 10. For further predictions just paste images in the `test_image_dir`.
 
 Since I trained it in colab, you can find the [`cavity_detection.ipynb`](https://github.com/atul-g/object_detection_on_cavities/blob/master/my_custom_detector/cavity_detection.ipynb) notebook which does all of the above.
+
+# Results:
 
